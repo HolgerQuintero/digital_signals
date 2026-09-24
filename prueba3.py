@@ -149,7 +149,7 @@ plt.show()
 import time
 
 fs_test = 500
-sig_test, t_test = mysin(30, fs_test, tmax=1.0)
+sig_test, t_test = mysin(30, fs_test, 1.0)
 
 N = np.size(sig_test)
 df_test = fs_test/N
