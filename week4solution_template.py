@@ -99,6 +99,12 @@ b=np.array([0,2,4])
 nb=np.size(b)
 c=np.zeros(na+nb-1)  
 
+c[0]=a[0]*b[0]
+c[1]=a[0]*b[1]+a[1]*b[0]
+c[2]=a[0]*b[2]+a[1]*b[1]+a[2]*b[0]
+c[3]=          a[1]*b[2]+a[2]*b[1]+a[3]*b[0]
+c[4]=                    a[2]*b[2]+a[3]*b[1]
+c[5]=                              a[3]*b[2]
 
 for i in np.arange(np.size(c)):
     c[i]=0
@@ -107,4 +113,4 @@ for i in np.arange(np.size(c)):
             sum=a[index] * b[i - index]
             c[i]=c[i]+sum
     
-       
+    
