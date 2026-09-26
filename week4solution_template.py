@@ -19,7 +19,6 @@ def myconv(a,b):
     nc=np.size(c)
     
     for ic in range(nc):
-        c[ic]=0
         for isum in range(max(na,nb)):
             if np.abs(isum) <na and np.abs(ic-isum)<nb and ic-isum>=0:
                sum=a[isum] * b[ic - isum]
@@ -39,15 +38,10 @@ def mycorr(f,g):
     index = 0    # index is 0 to len(h) to calculate h
     for ih in range(-(nf-1),ng): # ih is lag index
         for ind in range(max(nf,ng)):
-            #You need to do 3 things in here:
-            #  1. Check that all inidices will be within the associated array length (note that there are 3 checks to do)
-            #  2. Calculate the cross-correlation (using the right indices) and add it into your array
-            #  3. Increment the 'index'
-            #It is probably easiest to do these steps in the order 2, 3 then 1
-#            if ???
-                #h[index]=
-         index=index+1
-        
+            if np.abs(ih+ind) <ng and ih+ind>-1 and ind <nf  : # if 1) g index is less than len(g)                                                              # if 2) g index is positive                                                   # if 3) f index is less than len(f)
+                val = f[ind]*g[ih+ind]
+                h[index]=h[index]+val
+        index = index + 1
     return h
 
 
@@ -133,5 +127,54 @@ plt.legend()
 
 example=np.arange(5)
 myconv(example,filter)
+
+# %% Set of signals
+data = np.loadtxt(r"C:\Users\geral\OneDrive\Documentos\mun\repository\digital_signals\Sigs_for_shift.txt")
+
+t = data[0]
+s1 = data[1]
+s2 = data[2]
+
+plt.figure(2)
+plt.plot(t, s1, label="Signal 1")
+plt.plot(t, s2, label="Signal 2")
+plt.xlabel("Time")
+plt.ylabel("Amplitude")
+plt.title("Signals")
+plt.legend()
+
+conv_my = myconv(s1, s2)
+conv_full = np.convolve(s1, s2, mode='full')
+conv_same = np.convolve(s1, s2, mode='same')
+conv_valid = np.convolve(s1, s2, mode='valid')
+
+plt.figure(3, figsize=(12, 8))
+
+plt.subplot(2, 2, 1)
+plt.plot(conv_my)
+plt.title("My convolution")
+plt.xlabel("Index")
+plt.ylabel("Amplitude")
+
+plt.subplot(2, 2, 2)
+plt.plot(conv_full)
+plt.title("NumPy convolution (full)")
+plt.xlabel("Index")
+plt.ylabel("Amplitude")
+
+plt.subplot(2, 2, 3)
+plt.plot(conv_same)
+plt.title("NumPy convolution (same)")
+plt.xlabel("Index")
+plt.ylabel("Amplitude")
+
+plt.subplot(2, 2, 4)
+plt.plot(conv_valid)
+plt.title("NumPy convolution (valid)")
+plt.xlabel("Index")
+plt.ylabel("Amplitude")
+
+plt.tight_layout()
+plt.show()
 
 # %%
