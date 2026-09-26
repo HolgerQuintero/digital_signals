@@ -14,16 +14,20 @@ def myconv(a,b):
 
     na=np.size(a)
     nb=np.size(b)
-#    c=
+    c=np.zeros([na+nb-1])
     nc=np.size(c)
     
     for ic in range(nc):
+        c[ic]=0
         for isum in range(max(na,nb)):
             if np.abs(isum) <na and np.abs(ic-isum)<nb and ic-isum>=0:
-#                c[ic]=
+               sum=a[isum] * b[ic - isum]
+               c[ic]=c[ic]+sum
 
-                 
     return c
+
+
+
 
 def mycorr(f,g):
 # return the correlation of the signals f and g
@@ -106,11 +110,11 @@ c[3]=          a[1]*b[2]+a[2]*b[1]+a[3]*b[0]
 c[4]=                    a[2]*b[2]+a[3]*b[1]
 c[5]=                              a[3]*b[2]
 
+
 for i in np.arange(np.size(c)):
     c[i]=0
-    for index in np.arange(na):
+    for index in np.arange(a):
         if 0 <= i - index < nb:
             sum=a[index] * b[i - index]
-            c[i]=c[i]+sum
-    
-    
+            c[i]=c[i]+sum  
+
